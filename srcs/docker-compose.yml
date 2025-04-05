@@ -1,0 +1,30 @@
+name: inception
+
+services:
+    nginx:
+        build: nginx/
+        ports:
+            - 443:80
+
+
+    db:
+        build: mariadb/
+
+        environment:
+            MARIADB_ROOT_PASSWORD: db_root_psswd
+
+        # Need to set up the volumes needed. - /var/lib/mysql is the default databse directory.
+        volumes:
+            - db:/var/lib/mysql
+
+        secrets:
+            - db_root_psswd
+
+volumes:
+    db:
+        driver_opts:
+            device: C:\Users\dell\Desktop\volume
+
+secrets:
+    db_root_psswd:
+        file: ../secrets/db_root_psswd.txt
