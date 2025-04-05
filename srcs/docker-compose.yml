@@ -5,26 +5,39 @@ services:
         build: nginx/
         ports:
             - 443:80
+        volumes:
+            - wp:/var/www/html
 
+    wordpress:
+        build: wordpress/
+        environment:
+
+        volumes:
+            - wp:/var/www/html
 
     db:
         build: mariadb/
 
         environment:
-            MARIADB_ROOT_PASSWORD: db_root_psswd
-
+            MARIADB_ROOT_PASSWORD_FILE: db_root_psswd
+            MARIADB_DATABASE: wordpress
+            MARIADB_USER: wp
+            MARIADB_PASSWORD_FILE: wp_db_psswd
         # Need to set up the volumes needed. - /var/lib/mysql is the default databse directory.
         volumes:
             - db:/var/lib/mysql
-
         secrets:
             - db_root_psswd
+            - wp_db_psswd
 
 volumes:
     db:
-        driver_opts:
-            device: C:\Users\dell\Desktop\volume
+        # driver_opts:
+            # device: C:\Users\dell\Desktop\volume
+    wp:
 
 secrets:
     db_root_psswd:
         file: ../secrets/db_root_psswd.txt
+    wp_db_psswd:
+        file: ../secrets/wp_db_psswd.txt
