@@ -1,7 +1,7 @@
 FROM debian
-RUN apt-get update && apt-get install -y mariadb-server
+RUN apt update && apt install -y mariadb-server mariadb-client
 
 RUN mkdir /run/mysqld && chmod 007 /run/mysqld
 USER mysql
 
-ENTRYPOINT [ "mariadbd" , "--user=mysql"]
+ENTRYPOINT [ "sh" ]
