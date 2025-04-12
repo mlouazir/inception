@@ -2,6 +2,8 @@ name: inception
 
 services:
     nginx:
+        depends_on:
+            - wordpress
         build: nginx/
         ports:
             - 443:80
@@ -9,21 +11,26 @@ services:
             - wp:/var/www/html
 
     wordpress:
+        depends_on:
+            - mariadb
         build: wordpress/
-        environment:
-
         volumes:
             - wp:/var/www/html
+        environment:
+            WORDPRESS_DB_HOST: mariadb:3306
+            WORDPRESS_DB_NAME: wordpress
+            WORDPRESS_DB_USER: wp
+            WORDPRESS_DB_PASSWORD: wp_db_psswd
+        secrets:
+            - wp_db_psswd
 
-    db:
+    mariadb:
         build: mariadb/
-
         environment:
             MARIADB_ROOT_PASSWORD_FILE: db_root_psswd
             MARIADB_DATABASE: wordpress
             MARIADB_USER: wp
             MARIADB_PASSWORD_FILE: wp_db_psswd
-        # Need to set up the volumes needed. - /var/lib/mysql is the default databse directory.
         volumes:
             - db:/var/lib/mysql
         secrets:
