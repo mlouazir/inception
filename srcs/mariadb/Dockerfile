@@ -1,8 +1,8 @@
 FROM debian:latest
 RUN apt update && apt install -y mariadb-server mariadb-client
 
-RUN mkdir /run/mysqld && chmod 007 /run/mysqld
-USER mysql
+COPY /conf/init.sh /home/
 
-# CMD [ "mariadbd", "--user=mysql" ]
-ENTRYPOINT [ "sh" ]
+RUN sh /home/init.sh
+
+ENTRYPOINT [ "mariadbd", "--user=mysql", "--bind_address=0.0.0.0" ]
