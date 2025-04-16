@@ -6,7 +6,7 @@ services:
             - wordpress
         build: nginx/
         ports:
-            - 443:80
+            - 8000:80
         volumes:
             - wp:/var/www/html
 
@@ -16,26 +16,16 @@ services:
         build: wordpress/
         volumes:
             - wp:/var/www/html
-        environment:
-            WORDPRESS_DB_HOST: mariadb:3306
-            WORDPRESS_DB_NAME: wordpress
-            WORDPRESS_DB_USER: wp
-            WORDPRESS_DB_PASSWORD: wp_db_psswd
-        secrets:
-            - wp_db_psswd
+        # secrets:
+        #     - wp_db_psswd
 
     mariadb:
         build: mariadb/
-        environment:
-            MARIADB_ROOT_PASSWORD_FILE: db_root_psswd
-            MARIADB_DATABASE: wordpress
-            MARIADB_USER: wp
-            MARIADB_PASSWORD_FILE: wp_db_psswd
         volumes:
             - db:/var/lib/mysql
-        secrets:
-            - db_root_psswd
-            - wp_db_psswd
+        # secrets:
+        #     - db_root_psswd
+        #     - wp_db_psswd
 
 volumes:
     db:
