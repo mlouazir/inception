@@ -4,8 +4,8 @@ services:
     nginx:
         depends_on:
             - wordpress
-        image: "nginx"
         build: ./nginx
+        image: "nginx"
         ports:
             - 443:80
         volumes:
@@ -15,7 +15,6 @@ services:
         depends_on:
             - mariadb
         build: ./wordpress/
-        # image: "nginx:ll2"
         volumes:
             - wp:/var/www/html
         # secrets:
@@ -23,7 +22,6 @@ services:
 
     mariadb:
         build: ./mariadb/
-        # image: "nginx:ll3"
         volumes:
             - db:/var/lib/mysql
         # secrets:
