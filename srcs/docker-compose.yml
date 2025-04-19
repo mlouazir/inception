@@ -15,18 +15,22 @@ services:
         depends_on:
             - mariadb
         build: ./wordpress/
+        env_file: .env
         volumes:
             - wp:/var/www/html
-        # secrets:
-        #     - wp_db_psswd
+        secrets:
+            - wp_db_psswd
+            - wp_admin_psswd
+            - wp_user_psswd
 
     mariadb:
         build: ./mariadb/
+        env_file: .env
         volumes:
             - db:/var/lib/mysql
-        # secrets:
-        #     - db_root_psswd
-        #     - wp_db_psswd
+        secrets:
+            - db_root_psswd
+            - wp_db_psswd
 
 volumes:
     db:
@@ -38,4 +42,8 @@ secrets:
     db_root_psswd:
         file: ../secrets/db_root_psswd.txt
     wp_db_psswd:
+        file: ../secrets/wp_db_psswd.txt
+    wp_admin_psswd:
+        file: ../secrets/wp_db_psswd.txt
+    wp_user_psswd:
         file: ../secrets/wp_db_psswd.txt
