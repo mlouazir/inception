@@ -5,4 +5,4 @@ COPY /conf/init.sh /home/
 
 RUN chmod +x /home/init.sh
 
-ENTRYPOINT [ "/home/init.sh" ]
+ENTRYPOINT [ "/bin/bash", "-c", "/home/init.sh" ]

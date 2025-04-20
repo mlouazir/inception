@@ -24,10 +24,10 @@ c-clean:
 	@docker container prune -f
 
 i-clean:
-	@docker image prune -f
+	@docker image prune -f -a
 
 v-clean:
-	@docker volume prune -f
+	@docker volume prune -f -a
 
 re: down up
 

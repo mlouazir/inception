@@ -1,15 +1,15 @@
 #!/bin/bash
 
-# while ! nc -zv mariadb 3306 >/dev/null 2>&1; do sleep 1; done
+WP_DB_PSSWD=$(</run/secrets/wp_db_psswd)
+WP_ADMIN_PSSWD=$(</run/secrets/wp_admin_psswd)
+WP_USER_PSSWD=$(</run/secrets/wp_user_psswd)
 
 wp core download --allow-root
-                                                                        # PS
-wp config create --allow-root --dbname=$DATABASE_NAME --dbuser=$WP_USER --dbpass=wp --dbhost=mariadb:3306
-                                                                                                           # PS
-wp core install --allow-root --url=https://localhost --title=mySite --admin_user=$WP_ADMIN_USER --admin_password=boss --admin_email=$WP_ADMIN_EMAIL
-                                                            # PS
-wp user create --allow-root $WP_USER $WP_EMAIL --user_pass=user
 
-# wp db check --allow-root
+wp config create --allow-root --dbname=$DATABASE_NAME --dbuser=$WP_USER --dbpass=$WP_DB_PSSWD --dbhost=mariadb:3306
+
+wp core install --allow-root --url=https://localhost --title=mySite --admin_user=$WP_ADMIN_USER --admin_password=$WP_ADMIN_PSSWD --admin_email=$WP_ADMIN_EMAIL
+
+wp user create --allow-root $WP_USER $WP_EMAIL --user_pass=$WP_USER_PSSWD
 
 php-fpm7.4 -F
