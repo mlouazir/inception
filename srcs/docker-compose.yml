@@ -13,9 +13,16 @@ services:
 
     wordpress:
         depends_on:
-            - mariadb
+            mariadb:
+                condition: service_healthy
         build: ./wordpress/
         env_file: .env
+        # healthcheck:
+            # test: ["CMD", "wp db check", "--allow-root" ]
+            # interval: 1m30s
+            # timeout: 30s
+            # retries: 5
+            # start_period: 30s
         volumes:
             - wp:/var/www/html
         secrets:
@@ -25,6 +32,11 @@ services:
 
     mariadb:
         build: ./mariadb/
+        healthcheck:
+            test: ["CMD", "mariadb-admin", "ping" ]
+            interval: 10s
+            retries: 2
+            start_period: 10s
         env_file: .env
         volumes:
             - db:/var/lib/mysql

@@ -10,6 +10,6 @@ wp core install --allow-root --url=https://localhost --title=mySite --admin_user
                                                             # PS
 wp user create --allow-root $WP_USER $WP_EMAIL --user_pass=user
 
-wp db check --allow-root
+# wp db check --allow-root
 
 php-fpm7.4 -F
