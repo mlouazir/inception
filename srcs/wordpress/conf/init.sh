@@ -12,4 +12,6 @@ wp core install --allow-root --url=https://localhost --title=mySite --admin_user
 
 wp user create --allow-root $WP_USER $WP_EMAIL --user_pass=$WP_USER_PSSWD
 
+wp plugin install redis-cache --activate --allow-root
+
 php-fpm7.4 -F

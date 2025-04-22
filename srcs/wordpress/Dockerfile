@@ -11,7 +11,8 @@ RUN apt update && apt install -y curl \
                         php-mbstring \
                         php-mysql \
                         php-xml \
-                        php-zip
+                        php-zip \
+                        php-redis
 
 RUN mkdir -p /run/php && mkdir -p /var/www/html && chown -R www-data:www-data /var/www/html
 

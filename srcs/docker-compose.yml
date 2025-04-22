@@ -16,6 +16,8 @@ services:
 
     wordpress:
         depends_on:
+            redis:
+                condition: service_started
             mariadb:
                 condition: service_healthy
         build: ./wordpress/
@@ -46,6 +48,13 @@ services:
         secrets:
             - db_root_psswd
             - wp_db_psswd
+        networks:
+            - services-network
+    
+    redis:
+        build: ./redis/
+        image: "redis"
+        restart: on-failure
         networks:
             - services-network
 
