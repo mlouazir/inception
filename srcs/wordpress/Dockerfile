@@ -13,8 +13,6 @@ RUN apt update && apt install -y curl \
                         php-xml \
                         php-zip
 
-RUN apt install mariadb-client -y
-
 RUN mkdir -p /run/php && mkdir -p /var/www/html && chown -R www-data:www-data /var/www/html
 
 COPY conf/www.conf /etc/php/7.4/fpm/pool.d/
@@ -24,9 +22,8 @@ RUN curl -O https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli
 RUN chmod +x wp-cli.phar && mv wp-cli.phar /usr/local/bin/wp
 
 RUN chmod +x /home/init.sh
-
 RUN chmod 777 -R /var/www/html
 
 WORKDIR /var/www/html
 
-ENTRYPOINT [ "/home/init.sh" ]
+ENTRYPOINT [ "/bin/bash", "-c", "/home/init.sh" ]

@@ -8,6 +8,6 @@ COPY conf/init-cert.sh /home
 
 WORKDIR /home
 
-RUN chmod +x /home/init-cert.sh && sh /home/init-cert.sh
+RUN chmod +x /home/init-cert.sh && bash -c /home/init-cert.sh
 
 ENTRYPOINT [ "nginx" ]

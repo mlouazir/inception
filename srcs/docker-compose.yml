@@ -4,15 +4,15 @@ services:
     nginx:
         depends_on:
             - wordpress
-            # wordpress:
-            #     condition: service_healthy
         build: ./nginx
-        restart: always
         image: "nginx"
+        restart: on-failure
         ports:
             - 443:80
         volumes:
             - wp:/var/www/html
+        networks:
+            - services-network
 
     wordpress:
         depends_on:
@@ -21,19 +21,15 @@ services:
         build: ./wordpress/
         image: "wordpress"
         env_file: .env
-        restart: always
-        # healthcheck:
-        #     test: ["CMD", "wp", "db", "check", "--allow-root" ]
-        #     interval: 10s
-        #     timeout: 50s
-        #     retries: 2
-        #     start_period: 15s
+        restart: on-failure
         volumes:
             - wp:/var/www/html
         secrets:
             - wp_db_psswd
             - wp_admin_psswd
             - wp_user_psswd
+        networks:
+            - services-network
 
     mariadb:
         build: ./mariadb/
@@ -44,12 +40,14 @@ services:
             retries: 2
             start_period: 10s
         env_file: .env
-        restart: always
+        restart: on-failure
         volumes:
             - db:/var/lib/mysql
         secrets:
             - db_root_psswd
             - wp_db_psswd
+        networks:
+            - services-network
 
 volumes:
     db:
@@ -66,3 +64,7 @@ secrets:
         file: ../secrets/wp_admin_psswd.txt
     wp_user_psswd:
         file: ../secrets/wp_user_psswd.txt
+
+networks:
+    services-network:
+        driver: bridge
