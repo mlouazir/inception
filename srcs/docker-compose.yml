@@ -6,7 +6,7 @@ services:
             - wordpress
         build: ./nginx
         image: "nginx"
-        restart: on-failure
+        restart: on-failure:3
         ports:
             - 443:80
         volumes:
@@ -23,7 +23,7 @@ services:
         build: ./wordpress/
         image: "wordpress"
         env_file: .env
-        restart: on-failure
+        restart: on-failure:3
         volumes:
             - wp:/var/www/html
         secrets:
@@ -42,7 +42,7 @@ services:
             retries: 2
             start_period: 10s
         env_file: .env
-        restart: on-failure
+        restart: on-failure:3
         volumes:
             - db:/var/lib/mysql
         secrets:
@@ -54,7 +54,18 @@ services:
     redis:
         build: ./redis/
         image: "redis"
-        restart: on-failure
+        restart: on-failure:3
+        networks:
+            - services-network
+    ftp:
+        build: ./ftp/
+        image: "ftp"
+        ports:
+            - 21:21
+            - 3000-3010:3000-3010
+        restart: on-failure:3
+        volumes:
+            - wp:/srv/ftp/
         networks:
             - services-network
 
