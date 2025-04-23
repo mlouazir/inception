@@ -78,6 +78,13 @@ services:
         restart: on-failure:3
         networks:
             - services-network
+    
+    cadvisor:
+        build: ./cadvisor/
+        image: "cadvisor"
+        restart: on-failure:3
+        networks:
+            - services-network
 
 volumes:
     db:
