@@ -68,6 +68,16 @@ services:
             - wp:/srv/ftp/
         networks:
             - services-network
+    adminer:
+        depends_on:
+            - mariadb
+        build: ./adminer/
+        image: "adminer"
+        ports:
+            - 7000:80
+        restart: on-failure:3
+        networks:
+            - services-network
 
 volumes:
     db:
