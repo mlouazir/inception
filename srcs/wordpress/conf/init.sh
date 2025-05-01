@@ -14,4 +14,8 @@ wp user create --allow-root $WP_USER $WP_EMAIL --user_pass=$WP_USER_PSSWD
 
 wp plugin install redis-cache --activate --allow-root
 
+wp config set WP_REDIS_HOST redis --allow-root
+
+wp redis enable --allow-root
+
 php-fpm7.4 -F

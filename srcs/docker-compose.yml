@@ -57,6 +57,7 @@ services:
         restart: on-failure:3
         networks:
             - services-network
+
     ftp:
         build: ./ftp/
         image: "ftp"
@@ -68,6 +69,7 @@ services:
             - wp:/srv/ftp/
         networks:
             - services-network
+            
     adminer:
         depends_on:
             - mariadb
@@ -82,9 +84,16 @@ services:
     cadvisor:
         build: ./cadvisor/
         image: "cadvisor"
+        ports:
+            - 8080:8080
         restart: on-failure:3
         networks:
             - services-network
+        volumes:
+            - /var/lib/docker/:/var/lib/docker:ro
+            - /sys:/sys:ro
+            - /var/run:/var/run:rw
+            - /:/rootfs:ro
 
 volumes:
     db:
