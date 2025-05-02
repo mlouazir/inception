@@ -4,7 +4,7 @@ services:
     nginx:
         depends_on:
             - wordpress
-        build: ./nginx
+        build: ./requirements/nginx
         image: "nginx"
         restart: on-failure:3
         ports:
@@ -20,7 +20,7 @@ services:
                 condition: service_started
             mariadb:
                 condition: service_healthy
-        build: ./wordpress/
+        build: ./requirements/wordpress/
         image: "wordpress"
         env_file: .env
         restart: on-failure:3
@@ -34,7 +34,7 @@ services:
             - services-network
 
     mariadb:
-        build: ./mariadb/
+        build: ./requirements/mariadb/
         image: "mariadb"
         healthcheck:
             test: ["CMD", "mariadb-admin", "ping" ]
@@ -52,14 +52,14 @@ services:
             - services-network
     
     redis:
-        build: ./redis/
+        build: ./requirements/bonus/redis/
         image: "redis"
         restart: on-failure:3
         networks:
             - services-network
 
     ftp:
-        build: ./ftp/
+        build: ./requirements/bonus/ftp/
         image: "ftp"
         ports:
             - 21:21
@@ -73,7 +73,7 @@ services:
     adminer:
         depends_on:
             - mariadb
-        build: ./adminer/
+        build: ./requirements/bonus/adminer/
         image: "adminer"
         ports:
             - 7000:80
@@ -82,7 +82,7 @@ services:
             - services-network
     
     cadvisor:
-        build: ./cadvisor/
+        build: ./requirements/bonus/cadvisor/
         image: "cadvisor"
         ports:
             - 8080:8080
