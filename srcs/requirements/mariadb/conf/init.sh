@@ -13,4 +13,4 @@ mariadb -e "FLUSH PRIVILEGES"
 
 service mariadb stop
 
-mariadbd --user=mysql --bind_address=0.0.0.0
+exec mariadbd --user=mysql --bind_address=0.0.0.0
