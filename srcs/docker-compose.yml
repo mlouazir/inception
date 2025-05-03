@@ -95,6 +95,15 @@ services:
             - /var/run:/var/run:rw
             - /:/rootfs:ro
 
+    website:
+        build: ./requirements/bonus/website/
+        image: "website"
+        ports:
+            - 7070:7070
+        restart: on-failure:3
+        networks:
+            - services-network
+
 volumes:
     db:
         driver_opts:
