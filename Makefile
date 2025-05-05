@@ -1,4 +1,6 @@
 up:
+	@mkdir -p /home/mlouazir/data/db
+	@mkdir -p /home/mlouazir/data/wp
 	@docker compose -f srcs/docker-compose.yml up --build
 
 up-b:
@@ -34,5 +36,7 @@ re: down up
 clean: c-clean i-clean v-clean
 
 fclean: down clean
+	@sudo rm -rf /home/mlouazir/data/db
+	@sudo rm -rf /home/mlouazir/data/wp
 
 .PHONY: up up-b down exec c-clean i-clean v-clean clean

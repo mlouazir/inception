@@ -65,7 +65,9 @@ services:
             - 3000-3010:3000-3010
         restart: on-failure:3
         volumes:
-            - wp:/srv/ftp/
+            - wp:/home/ftp_client/
+        secrets:
+            - ftp_client_psswd
         networks:
             - services-network
             
@@ -124,6 +126,8 @@ secrets:
         file: ../secrets/wp_admin_psswd.txt
     wp_user_psswd:
         file: ../secrets/wp_user_psswd.txt
+    ftp_client_psswd:
+        file: ../secrets/ftp_client_psswd.txt
 
 networks:
     services-network:
