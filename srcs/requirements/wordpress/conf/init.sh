@@ -18,4 +18,6 @@ wp config set WP_REDIS_HOST redis --allow-root
 
 wp redis enable --allow-root
 
+chmod 777 -R /var/www/html
+
 exec php-fpm7.4 -F
